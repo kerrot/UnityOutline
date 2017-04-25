@@ -9,6 +9,7 @@ public class OutlineCamera : MonoBehaviour {
 
 	public string usedLayerName;
 	public Shader usedShader;
+	[Range(0, 1)]
 	public float outlineWidth;
 
 	private List<OutlineObject> objs = new List<OutlineObject>();
@@ -69,6 +70,9 @@ public class OutlineCamera : MonoBehaviour {
 	void OnRenderImage(RenderTexture src, RenderTexture dest) 
 	{
 		Graphics.SetRenderTarget (null);
+
+		mat.SetTexture("_OutlineTexture", renderTexture);
+		mat.SetFloat("_OutlineWidth", outlineWidth);
 
 		Graphics.Blit(src, mat);
 	}
