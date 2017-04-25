@@ -4,13 +4,15 @@ using UnityEngine;
 
 
 public class OutlineCamera : MonoBehaviour {
-
-	public Material mat;
-
-	public string usedLayerName;
-	public Shader usedShader;
-	[Range(0, 1)]
-	public float outlineWidth;
+    [SerializeField]
+    private Material mat;
+    [SerializeField]
+    private string usedLayerName;
+    [SerializeField]
+    private Shader usedShader;
+    [SerializeField]
+    [Range(0, 100)]
+	private int outlineWidth;
 
 	private List<OutlineObject> objs = new List<OutlineObject>();
 

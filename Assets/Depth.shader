@@ -17,11 +17,21 @@
             sampler2D _MainTex;
             sampler2D _OutlineTexture;
 
-            half4 _OutlineWidth;
+            int _OutlineWidth;
 
-            half4 frag(v2f_img o) : COLOR
+            float4 frag(v2f_img o) : COLOR
             {
-            	half2 uv = { o.uv.x, 1 - o.uv.y};
+				float2 uv = { o.uv.x, 1 - o.uv.y };
+				float2 pixelStep = _ScreenParams.zw - float2(1, 1);
+
+				for (int u = -_OutlineWidth; u <= _OutlineWidth; ++u)
+				{
+					for (int v = -_OutlineWidth; v <= _OutlineWidth; ++v)
+					{
+						float2 tmp = uv + float2(pixelStep.x * u, pixelStep.y * v);
+					}
+				}
+
 
             	if (tex2D(_CameraDepthTexture, uv).r > 0)
             	{
@@ -31,8 +41,6 @@
             	{
             		return half4(0, 0, 0, 0);
             	}
-
-            	return tex2D(_OutlineTexture, uv);
             }
 
             ENDCG
