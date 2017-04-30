@@ -6,7 +6,7 @@ public class DepthCamera : MonoBehaviour {
 
 	private RenderTexture m_colorTex;
 	private RenderTexture m_depthTex;
-	public Material m_postRenderMat;
+	private Material m_postRenderMat;
 
 	void Start ()
 	{
@@ -23,7 +23,10 @@ public class DepthCamera : MonoBehaviour {
 
 		// cameraにカラーバッファとデプスバッファをセットする
 		cam.SetTargetBuffers(m_colorTex.colorBuffer, m_depthTex.depthBuffer);
-	}
+
+        m_postRenderMat = new Material(Shader.Find("Unilt/Texture"));
+        m_postRenderMat.hideFlags = HideFlags.HideAndDontSave;
+    }
 
 	void OnPostRender()
 	{
