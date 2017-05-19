@@ -15,33 +15,45 @@ public class Ouline_AvgNormal : MonoBehaviour {
     Material outlineMat;
     private void Awake()
     {
-        outlineObj = new GameObject("Outline");
-        outlineObj.transform.parent = transform;
-
-        outlineMat = new Material(Shader.Find("Custom/Outline_AvgNormal"));
-        outlineMat.hideFlags = HideFlags.HideAndDontSave;
-
-        if (GetComponent<MeshFilter>())
+        if (outlineMat == null)
         {
-            outlineObj.AddComponent<MeshFilter>();
-            outlineObj.AddComponent<MeshRenderer>(GetComponent<MeshRenderer>());
-            Mesh tmpMesh = (Mesh)Instantiate(GetComponent<MeshFilter>().sharedMesh);
-            Extensions.MeshNormalAverage(tmpMesh);
-            outlineObj.GetComponent<MeshFilter>().sharedMesh = tmpMesh;
-            outlineObj.GetComponent<MeshRenderer>().material = outlineMat;
+            outlineMat = new Material(Shader.Find("Custom/Outline_AvgNormal"));
+            outlineMat.hideFlags = HideFlags.HideAndDontSave;
         }
 
-        if (GetComponent<SkinnedMeshRenderer>())
+        Transform tmpT = transform.FindChild("Outline");
+        if (tmpT)
         {
-            outlineObj.AddComponent<SkinnedMeshRenderer>(GetComponent<SkinnedMeshRenderer>());
-            Mesh tmpMesh = (Mesh)Instantiate(GetComponent<SkinnedMeshRenderer>().sharedMesh);
-            Extensions.MeshNormalAverage(tmpMesh);
-            outlineObj.GetComponent<SkinnedMeshRenderer>().sharedMesh = tmpMesh;
-            outlineObj.GetComponent<SkinnedMeshRenderer>().material = outlineMat;
+            outlineObj = tmpT.gameObject;
         }
 
-        outlineObj.transform.localPosition = Vector3.zero;
-        outlineObj.transform.localRotation = Quaternion.identity;
+        if (outlineObj == null)
+        {
+            outlineObj = new GameObject("Outline");
+            outlineObj.transform.parent = transform;
+
+            if (GetComponent<MeshFilter>())
+            {
+                outlineObj.AddComponent<MeshFilter>();
+                outlineObj.AddComponent<MeshRenderer>(GetComponent<MeshRenderer>());
+                Mesh tmpMesh = (Mesh)Instantiate(GetComponent<MeshFilter>().sharedMesh);
+                Extensions.MeshNormalAverage(tmpMesh);
+                outlineObj.GetComponent<MeshFilter>().sharedMesh = tmpMesh;
+                outlineObj.GetComponent<MeshRenderer>().material = outlineMat;
+            }
+
+            if (GetComponent<SkinnedMeshRenderer>())
+            {
+                outlineObj.AddComponent<SkinnedMeshRenderer>(GetComponent<SkinnedMeshRenderer>());
+                Mesh tmpMesh = (Mesh)Instantiate(GetComponent<SkinnedMeshRenderer>().sharedMesh);
+                Extensions.MeshNormalAverage(tmpMesh);
+                outlineObj.GetComponent<SkinnedMeshRenderer>().sharedMesh = tmpMesh;
+                outlineObj.GetComponent<SkinnedMeshRenderer>().material = outlineMat;
+            }
+
+            outlineObj.transform.localPosition = Vector3.zero;
+            outlineObj.transform.localRotation = Quaternion.identity;
+        }
     }
 
     private void Update()
