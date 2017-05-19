@@ -25,6 +25,14 @@ public class Ouline_AvgNormal : MonoBehaviour {
         if (tmpT)
         {
             outlineObj = tmpT.gameObject;
+			if (GetComponent<MeshFilter> ()) 
+			{
+				outlineObj.GetComponent<MeshRenderer>().material = outlineMat;
+			}
+			if (GetComponent<SkinnedMeshRenderer>())
+			{
+				outlineObj.GetComponent<SkinnedMeshRenderer>().material = outlineMat;
+			}
         }
 
         if (outlineObj == null)
