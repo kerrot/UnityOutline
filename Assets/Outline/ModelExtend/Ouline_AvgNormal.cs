@@ -61,6 +61,8 @@ public class Ouline_AvgNormal : MonoBehaviour {
 
             outlineObj.transform.localPosition = Vector3.zero;
             outlineObj.transform.localRotation = Quaternion.identity;
+			outlineObj.transform.localScale = Vector3.one;
+			
         }
     }
 
@@ -88,4 +90,11 @@ public class Ouline_AvgNormal : MonoBehaviour {
             outlineObj.SetActive(false);
         }
     }
+
+	private void OnDestroy( ) {
+		if (outlineObj)
+        {
+            DestroyImmediate(outlineObj);
+        }
+	}
 }
